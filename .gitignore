@@ -1,6 +1,12 @@
 HELP.md
+
 db/
 target/
+ewm-service/target/
+ewm-stats/stats-client/target/
+ewm-stats/stats-service/target/
+ewm-stats/stats-util/target/
+
 !.mvn/wrapper/maven-wrapper.jar
 !**/src/main/**/target/
 !**/src/test/**/target/
