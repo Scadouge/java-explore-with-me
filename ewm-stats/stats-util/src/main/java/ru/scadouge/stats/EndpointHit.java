@@ -7,11 +7,11 @@ import lombok.*;
 @Getter
 @Builder
 public class EndpointHit {
-    String app;
+    private String app;
 
-    String uri;
+    private String uri;
 
-    String ip;
+    private String ip;
 
-    String timestamp;
+    private String timestamp;
 }

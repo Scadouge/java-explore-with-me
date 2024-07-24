@@ -6,6 +6,8 @@ import lombok.*;
 @RequiredArgsConstructor
 public class StatCountView {
     private final String app;
+
     private final String uri;
+
     private final Long count;
 }
