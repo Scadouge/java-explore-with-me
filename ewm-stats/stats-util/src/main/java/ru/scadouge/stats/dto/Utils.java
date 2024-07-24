@@ -1,4 +1,4 @@
-package ru.scadouge.stats;
+package ru.scadouge.stats.dto;
 
 import lombok.experimental.UtilityClass;
 

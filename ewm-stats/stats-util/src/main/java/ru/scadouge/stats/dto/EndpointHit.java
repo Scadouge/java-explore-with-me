@@ -1,4 +1,4 @@
-package ru.scadouge.stats;
+package ru.scadouge.stats.dto;
 
 import lombok.*;
 
@@ -6,10 +6,12 @@ import lombok.*;
 @AllArgsConstructor
 @Getter
 @Builder
-public class ViewStats {
+public class EndpointHit {
     private String app;
 
     private String uri;
 
-    private int hits;
+    private String ip;
+
+    private String timestamp;
 }

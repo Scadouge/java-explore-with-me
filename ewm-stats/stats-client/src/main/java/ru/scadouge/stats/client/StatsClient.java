@@ -1,10 +1,13 @@
-package ru.scadouge.stats;
+package ru.scadouge.stats.client;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.reactive.function.client.WebClient;
+import ru.scadouge.stats.dto.EndpointHit;
+import ru.scadouge.stats.dto.Utils;
+import ru.scadouge.stats.dto.ViewStats;
 
 import java.time.LocalDateTime;
 import java.util.List;

@@ -3,9 +3,9 @@ package ru.scadouge.stats.model;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
 import org.mapstruct.MappingConstants;
-import ru.scadouge.stats.EndpointHit;
-import ru.scadouge.stats.Utils;
-import ru.scadouge.stats.ViewStats;
+import ru.scadouge.stats.dto.EndpointHit;
+import ru.scadouge.stats.dto.Utils;
+import ru.scadouge.stats.dto.ViewStats;
 import ru.scadouge.stats.view.StatCountView;
 
 import java.util.List;

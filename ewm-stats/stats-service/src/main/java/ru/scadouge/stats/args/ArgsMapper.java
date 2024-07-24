@@ -2,7 +2,7 @@ package ru.scadouge.stats.args;
 
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
-import ru.scadouge.stats.Utils;
+import ru.scadouge.stats.dto.Utils;
 
 import java.util.List;
 
