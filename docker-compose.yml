@@ -1,15 +1,49 @@
 version: '3.1'
 services:
-  stats-server:
-    ports:
-      - "9090:9090"
-
-  stats-db:
-    image: postgres:14-alpine
-
   ewm-service:
+    build: ewm-service
+    depends_on:
+      - stats-service
     ports:
       - "8080:8080"
+      - "8081:8081"
+    environment:
+      - WEB_PORT=8080
+      - SPRING_PROFILES_ACTIVE=default
+      - STATS_SERVICE_URL=http://stats-service:9090
 
-  ewm-db:
-    image: postgres:14-alpine
+  #  ewm-db:
+  #    image: postgres:16.3-alpine
+
+  stats-service:
+    build: ewm-stats/stats-service
+    depends_on:
+      stats-db:
+        condition: service_healthy
+    ports:
+      - "9090:9090"
+      - "9091:9091"
+    environment:
+      - WEB_PORT=9090
+      - SPRING_PROFILES_ACTIVE=default
+      - DB_URL=stats-db:5432/ewm-stats
+      - POSTGRES_USER=postgres
+      - POSTGRES_PASSWORD=1808
+
+  stats-db:
+    image: postgres:16.3-alpine
+    volumes:
+      - stats-vol:/var/lib/postgresql/data/
+    ports:
+      - "5433:5432"
+    environment:
+      - POSTGRES_DB=ewm-stats
+      - POSTGRES_USER=postgres
+      - POSTGRES_PASSWORD=1808
+    healthcheck:
+      test: pg_isready -q -d $$POSTGRES_DB -U $$POSTGRES_USER
+      timeout: 5s
+      interval: 5s
+      retries: 10
+volumes:
+  stats-vol:
