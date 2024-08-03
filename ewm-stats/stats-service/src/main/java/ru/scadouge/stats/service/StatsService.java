@@ -10,4 +10,6 @@ public interface StatsService {
     void hit(StatHit statHit);
 
     List<StatCountView> getStats(GetStatsArgs args);
+
+    List<StatCountView> getViewsStats(List<String> uris, boolean unique);
 }

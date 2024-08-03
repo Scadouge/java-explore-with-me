@@ -5,7 +5,7 @@ import lombok.*;
 import javax.persistence.*;
 import java.time.LocalDateTime;
 
-import static ru.scadouge.stats.repository.StatsSqlHelper.*;
+import static ru.scadouge.stats.repository.StatsSqlHelper.TABLE_STAT_HITS;
 
 @AllArgsConstructor
 @NoArgsConstructor

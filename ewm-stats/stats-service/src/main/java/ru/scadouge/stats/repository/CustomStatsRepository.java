@@ -7,4 +7,6 @@ import java.util.List;
 
 public interface CustomStatsRepository {
     List<StatCountView> findStatsCountInTimeIntervalByUri(LocalDateTime start, LocalDateTime end, List<String> uris, boolean unique);
+
+    List<StatCountView> findStatsCountByUri(List<String> uris, boolean unique);
 }
