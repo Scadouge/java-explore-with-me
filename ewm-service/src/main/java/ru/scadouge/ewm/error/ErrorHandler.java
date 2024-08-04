@@ -21,7 +21,6 @@ public class ErrorHandler {
                 .status(HttpStatus.NOT_FOUND.toString())
                 .reason("Требуемый объект не найден")
                 .message(e.getMessage())
-//                .errors(Arrays.stream(e.getStackTrace()).map(StackTraceElement::toString).collect(Collectors.toList()))
                 .timestamp(LocalDateTime.now())
                 .build();
         log.warn(apiError.toString(), e);

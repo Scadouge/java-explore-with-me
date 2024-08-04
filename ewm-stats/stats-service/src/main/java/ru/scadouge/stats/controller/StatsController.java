@@ -3,6 +3,7 @@ package ru.scadouge.stats.controller;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 import ru.scadouge.stats.args.ArgsMapper;
 import ru.scadouge.stats.args.GetStatsArgs;
@@ -10,6 +11,7 @@ import ru.scadouge.stats.dto.EndpointHit;
 import ru.scadouge.stats.dto.ViewStats;
 import ru.scadouge.stats.model.HitMapper;
 import ru.scadouge.stats.service.StatsService;
+import ru.scadouge.stats.validation.ValidSearchDateInterval;
 import ru.scadouge.stats.view.StatCountView;
 
 import java.util.List;
@@ -17,6 +19,7 @@ import java.util.List;
 @RestController
 @Slf4j
 @RequiredArgsConstructor
+@Validated
 public class StatsController {
     private final StatsService statsService;
     private final HitMapper hitMapper;
@@ -30,6 +33,7 @@ public class StatsController {
     }
 
     @GetMapping("/stats")
+    @ValidSearchDateInterval
     public List<ViewStats> getStats(@RequestParam String start,
                                     @RequestParam String end,
                                     @RequestParam(required = false) List<String> uris,
