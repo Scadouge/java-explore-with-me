@@ -55,7 +55,7 @@ public class ErrorHandler {
 
     @ExceptionHandler
     @ResponseStatus(HttpStatus.INTERNAL_SERVER_ERROR)
-    public ApiError handleOtherExceptions(RuntimeException e) {
+    public ApiError handleOtherExceptions(Throwable e) {
         ApiError apiError = ApiError.builder()
                 .status(HttpStatus.INTERNAL_SERVER_ERROR.toString())
                 .reason("Ошибка сервера")

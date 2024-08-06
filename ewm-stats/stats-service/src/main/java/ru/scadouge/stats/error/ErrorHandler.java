@@ -24,4 +24,17 @@ public class ErrorHandler {
         log.warn(apiError.toString(), e);
         return apiError;
     }
+
+    @ExceptionHandler
+    @ResponseStatus(HttpStatus.INTERNAL_SERVER_ERROR)
+    public ApiError handleOtherExceptions(Throwable e) {
+        ApiError apiError = ApiError.builder()
+                .status(HttpStatus.INTERNAL_SERVER_ERROR.toString())
+                .reason("Ошибка сервера")
+                .message(e.getMessage())
+                .timestamp(LocalDateTime.now())
+                .build();
+        log.warn(apiError.toString(), e);
+        return apiError;
+    }
 }

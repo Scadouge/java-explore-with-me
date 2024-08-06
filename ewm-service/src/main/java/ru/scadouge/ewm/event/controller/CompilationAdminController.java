@@ -3,7 +3,6 @@ package ru.scadouge.ewm.event.controller;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
-import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 import ru.scadouge.ewm.event.args.NewCompilationArgs;
 import ru.scadouge.ewm.event.args.UpdateCompilationArgs;
@@ -19,7 +18,6 @@ import javax.validation.Valid;
 @RestController
 @RequestMapping("/admin/compilations")
 @Slf4j
-@Validated
 @RequiredArgsConstructor
 public class CompilationAdminController {
     private final CompilationService compilationService;
