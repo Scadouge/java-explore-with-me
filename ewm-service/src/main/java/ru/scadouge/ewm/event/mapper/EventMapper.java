@@ -9,7 +9,6 @@ import ru.scadouge.ewm.event.model.Event;
 import ru.scadouge.ewm.location.Location;
 import ru.scadouge.ewm.user.model.User;
 import ru.scadouge.ewm.utils.TimeHelper;
-import ru.scadouge.stats.dto.TimeUtils;
 
 import java.sql.Timestamp;
 import java.time.LocalDateTime;
@@ -61,33 +60,26 @@ public interface EventMapper {
 
     @Mapping(target = "state", ignore = true)
     @Mapping(target = "confirmedRequests", ignore = true)
-    @Mapping(target = "eventDate", source = "eventDate", dateFormat = TimeUtils.DATE_TIME_PATTERN)
     @BeanMapping(nullValueMappingStrategy = NullValueMappingStrategy.RETURN_DEFAULT,
             nullValueCheckStrategy = NullValueCheckStrategy.ALWAYS)
     NewEventArgs toNewEventArgs(NewEventDto newEventDto);
 
-    @Mapping(target = "eventDate", source = "eventDate", dateFormat = TimeUtils.DATE_TIME_PATTERN)
     @BeanMapping(nullValueMappingStrategy = NullValueMappingStrategy.RETURN_DEFAULT,
             nullValueCheckStrategy = NullValueCheckStrategy.ALWAYS)
     EventUserUpdateArgs toEventUserUpdateArgs(UpdateEventUserRequest updateEventUserRequest);
 
-    @Mapping(target = "eventDate", source = "eventDate", dateFormat = TimeUtils.DATE_TIME_PATTERN)
     @BeanMapping(nullValueMappingStrategy = NullValueMappingStrategy.RETURN_DEFAULT,
             nullValueCheckStrategy = NullValueCheckStrategy.ALWAYS)
     EventAdminUpdateArgs toEventAdminUpdateArgs(UpdateEventAdminRequest updateEventAdminRequest);
 
-    @Mapping(target = "rangeStart", source = "rangeStart", dateFormat = TimeUtils.DATE_TIME_PATTERN)
-    @Mapping(target = "rangeEnd", source = "rangeEnd", dateFormat = TimeUtils.DATE_TIME_PATTERN)
     @BeanMapping(nullValueMappingStrategy = NullValueMappingStrategy.RETURN_DEFAULT,
             nullValueCheckStrategy = NullValueCheckStrategy.ALWAYS)
-    AdminSearchEventsArgs toAdminSearchEventsArgs(String rangeStart, String rangeEnd, List<Long> users,
+    AdminSearchEventsArgs toAdminSearchEventsArgs(LocalDateTime rangeStart, LocalDateTime rangeEnd, List<Long> users,
                                                   List<String> states, List<Long> categories, int from, int size);
 
-    @Mapping(target = "rangeStart", source = "rangeStart", dateFormat = TimeUtils.DATE_TIME_PATTERN)
-    @Mapping(target = "rangeEnd", source = "rangeEnd", dateFormat = TimeUtils.DATE_TIME_PATTERN)
     @BeanMapping(nullValueMappingStrategy = NullValueMappingStrategy.RETURN_DEFAULT,
             nullValueCheckStrategy = NullValueCheckStrategy.ALWAYS)
-    SearchEventsArgs toSearchEventsArgs(String rangeStart, String rangeEnd, String text, List<Long> categories,
+    SearchEventsArgs toSearchEventsArgs(LocalDateTime rangeStart, LocalDateTime rangeEnd, String text, List<Long> categories,
                                         Boolean paid, Boolean onlyAvailable, EventSort sort, int from, int size);
 
     default List<EventWithViewsArgs> toEventWithViewsArgs(Map<Long, Event> events, Map<Long, Integer> views) {

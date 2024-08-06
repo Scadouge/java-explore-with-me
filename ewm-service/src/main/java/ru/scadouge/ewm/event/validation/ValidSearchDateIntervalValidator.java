@@ -1,7 +1,5 @@
 package ru.scadouge.ewm.event.validation;
 
-import ru.scadouge.ewm.utils.TimeHelper;
-
 import javax.validation.ConstraintValidator;
 import javax.validation.ConstraintValidatorContext;
 import javax.validation.constraintvalidation.SupportedValidationTarget;
@@ -14,8 +12,8 @@ public class ValidSearchDateIntervalValidator implements ConstraintValidator<Val
     public boolean isValid(Object[] value, final ConstraintValidatorContext context) {
         try {
             if (value[0] != null && value[1] != null) {
-                LocalDateTime rangeStart = LocalDateTime.parse((String) value[0], TimeHelper.DATE_TIME_FORMATTER);
-                LocalDateTime rangeEnd = LocalDateTime.parse((String) value[1], TimeHelper.DATE_TIME_FORMATTER);
+                LocalDateTime rangeStart = (LocalDateTime) value[0];
+                LocalDateTime rangeEnd = (LocalDateTime) value[1];
                 return rangeEnd.isAfter(rangeStart);
             } else {
                 return true;

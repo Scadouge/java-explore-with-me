@@ -2,6 +2,7 @@ package ru.scadouge.ewm.event.controller;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 import ru.scadouge.ewm.event.args.AdminSearchEventsArgs;
@@ -11,10 +12,12 @@ import ru.scadouge.ewm.event.dto.UpdateEventAdminRequest;
 import ru.scadouge.ewm.event.mapper.EventMapper;
 import ru.scadouge.ewm.event.service.EventService;
 import ru.scadouge.ewm.event.validation.ValidSearchDateInterval;
+import ru.scadouge.ewm.utils.TimeHelper;
 
 import javax.validation.Valid;
 import javax.validation.constraints.Positive;
 import javax.validation.constraints.PositiveOrZero;
+import java.time.LocalDateTime;
 import java.util.List;
 
 @RestController
@@ -28,8 +31,10 @@ public class EventAdminController {
 
     @GetMapping
     @ValidSearchDateInterval
-    public List<EventFullDto> getEvents(@RequestParam(required = false) String rangeStart,
-                                        @RequestParam(required = false) String rangeEnd,
+    public List<EventFullDto> getEvents(@RequestParam(required = false)
+                                        @DateTimeFormat(pattern = TimeHelper.DATE_TIME_PATTERN) LocalDateTime rangeStart,
+                                        @RequestParam(required = false)
+                                        @DateTimeFormat(pattern = TimeHelper.DATE_TIME_PATTERN) LocalDateTime rangeEnd,
                                         @RequestParam(required = false) List<Long> users,
                                         @RequestParam(required = false) List<String> states,
                                         @RequestParam(required = false) List<Long> categories,

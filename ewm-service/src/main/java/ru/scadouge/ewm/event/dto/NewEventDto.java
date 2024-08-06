@@ -1,12 +1,15 @@
 package ru.scadouge.ewm.event.dto;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
 import lombok.*;
 import ru.scadouge.ewm.event.validation.ValidFutureDate;
+import ru.scadouge.ewm.utils.TimeHelper;
 
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.PositiveOrZero;
 import javax.validation.constraints.Size;
+import java.time.LocalDateTime;
 
 @NoArgsConstructor
 @AllArgsConstructor
@@ -29,9 +32,10 @@ public class NewEventDto {
     @NotNull
     private Long category;
 
-    @NotBlank
+    @NotNull
     @ValidFutureDate(minimumMinutes = 120)
-    private String eventDate;
+    @JsonFormat(pattern = TimeHelper.DATE_TIME_PATTERN)
+    private LocalDateTime eventDate;
 
     @NotNull
     private LocationDto location;
