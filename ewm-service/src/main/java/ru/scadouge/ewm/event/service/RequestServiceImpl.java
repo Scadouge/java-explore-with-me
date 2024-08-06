@@ -22,6 +22,7 @@ import java.util.concurrent.atomic.AtomicInteger;
 import java.util.concurrent.atomic.AtomicLong;
 
 @Service
+@Transactional(readOnly = true)
 @RequiredArgsConstructor
 public class RequestServiceImpl implements RequestService {
     private final RequestRepository requestRepository;
@@ -67,6 +68,7 @@ public class RequestServiceImpl implements RequestService {
     }
 
     @Override
+    @Transactional
     public Request cancelUserRequest(long userId, long requestId) {
         Request request = requestRepository.findById(requestId).orElseThrow(() -> new NotFoundException(Request.class, requestId));
         if (request.getRequester().getId() != userId) {

@@ -3,6 +3,7 @@ package ru.scadouge.ewm.category.service;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import ru.scadouge.ewm.category.mapper.CategoryMapper;
 import ru.scadouge.ewm.category.model.Category;
 import ru.scadouge.ewm.category.repository.CategoryRepository;
@@ -12,17 +13,20 @@ import ru.scadouge.ewm.utils.Pagination;
 import java.util.List;
 
 @Service
+@Transactional(readOnly = true)
 @RequiredArgsConstructor
 public class CategoryServiceImpl implements CategoryService {
     private final CategoryRepository categoryRepository;
     private final CategoryMapper categoryMapper;
 
     @Override
+    @Transactional
     public Category createCategory(Category category) {
         return categoryRepository.save(category);
     }
 
     @Override
+    @Transactional
     public Category updateCategory(long id, Category updater) {
         Category category = categoryRepository.findById(id)
                 .orElseThrow(() -> new NotFoundException(Category.class, id));
@@ -43,6 +47,7 @@ public class CategoryServiceImpl implements CategoryService {
     }
 
     @Override
+    @Transactional
     public void deleteCategory(long id) {
         Category category = categoryRepository.findById(id)
                 .orElseThrow(() -> new NotFoundException(Category.class, id));

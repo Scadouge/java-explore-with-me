@@ -31,6 +31,7 @@ import java.util.Map;
 import java.util.stream.Collectors;
 
 @Service
+@Transactional(readOnly = true)
 @RequiredArgsConstructor
 public class EventServiceImpl implements EventService {
     private final CategoryRepository categoryRepository;
@@ -41,6 +42,7 @@ public class EventServiceImpl implements EventService {
     private final EventMapper eventMapper;
 
     @Override
+    @Transactional
     public Event createEventByUser(Long userId, NewEventArgs args) {
         User user = userRepository.findById(userId)
                 .orElseThrow(() -> new NotFoundException(User.class, userId));
@@ -68,6 +70,7 @@ public class EventServiceImpl implements EventService {
     }
 
     @Override
+    @Transactional
     public EventWithViewsArgs updateEventByUser(long userId, long eventId, EventUserUpdateArgs eventUserUpdateArgs) {
         Event event = eventRepository.findById(eventId).orElseThrow(() -> new NotFoundException(Event.class, eventId));
         if (event.getInitiator().getId() != userId) {
