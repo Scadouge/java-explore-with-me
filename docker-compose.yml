@@ -3,17 +3,37 @@ services:
   ewm-service:
     build: ewm-service
     depends_on:
-      - stats-service
+      ewm-db:
+        condition: service_healthy
+      stats-service:
+        condition: service_started
     ports:
       - "8080:8080"
       - "8081:8081"
     environment:
       - WEB_PORT=8080
       - SPRING_PROFILES_ACTIVE=default
+      - DB_URL=ewm-db:5440/ewm-service
+      - POSTGRES_USER=postgres
+      - POSTGRES_PASSWORD=1808
       - STATS_SERVICE_URL=http://stats-service:9090
 
-  #  ewm-db:
-  #    image: postgres:16.3-alpine
+  ewm-db:
+    image: postgres:16.3-alpine
+    volumes:
+      - ewm-vol:/var/lib/postgresql/data/
+    command: -p 5440
+    ports:
+      - "5440:5440"
+    environment:
+      - POSTGRES_DB=ewm-service
+      - POSTGRES_USER=postgres
+      - POSTGRES_PASSWORD=1808
+    healthcheck:
+      test: pg_isready -q -d $$POSTGRES_DB -U $$POSTGRES_USER -p 5440
+      timeout: 5s
+      interval: 5s
+      retries: 10
 
   stats-service:
     build: ewm-stats/stats-service
@@ -26,7 +46,7 @@ services:
     environment:
       - WEB_PORT=9090
       - SPRING_PROFILES_ACTIVE=default
-      - DB_URL=stats-db:5432/ewm-stats
+      - DB_URL=stats-db:5441/ewm-stats
       - POSTGRES_USER=postgres
       - POSTGRES_PASSWORD=1808
 
@@ -34,16 +54,19 @@ services:
     image: postgres:16.3-alpine
     volumes:
       - stats-vol:/var/lib/postgresql/data/
+    command: -p 5441
     ports:
-      - "5433:5432"
+      - "5441:5441"
     environment:
       - POSTGRES_DB=ewm-stats
       - POSTGRES_USER=postgres
       - POSTGRES_PASSWORD=1808
     healthcheck:
-      test: pg_isready -q -d $$POSTGRES_DB -U $$POSTGRES_USER
+      test: pg_isready -q -d $$POSTGRES_DB -U $$POSTGRES_USER -p 5441
       timeout: 5s
       interval: 5s
       retries: 10
+
 volumes:
   stats-vol:
+  ewm-vol:

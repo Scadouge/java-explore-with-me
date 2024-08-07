@@ -40,4 +40,28 @@ public class CustomStatsRepositoryImpl implements CustomStatsRepository {
 
         return typedQuery.getResultList();
     }
+
+    @Override
+    public List<StatCountView> findStatsCountByUri(List<String> uris, boolean unique) {
+        String countClause = "st.ip";
+        if (unique) {
+            countClause = "DISTINCT st.ip";
+        }
+        String urisInClause = "";
+        if (uris.size() > 0) {
+            urisInClause = "st.uri IN :uris ";
+        }
+
+        String query = String.format("SELECT new ru.scadouge.stats.view.StatCountView(st.app, st.uri, COUNT(%s) AS hits) FROM StatHit st WHERE " +
+                "%s" +
+                "GROUP BY st.app, st.uri " +
+                "ORDER BY hits DESC", countClause, urisInClause);
+        TypedQuery<StatCountView> typedQuery = entityManager.createQuery(query, StatCountView.class);
+
+        if (uris.size() > 0) {
+            typedQuery.setParameter("uris", uris);
+        }
+
+        return typedQuery.getResultList();
+    }
 }

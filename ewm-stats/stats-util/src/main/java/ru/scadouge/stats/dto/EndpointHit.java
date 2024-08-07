@@ -6,6 +6,7 @@ import lombok.*;
 @AllArgsConstructor
 @Getter
 @Builder
+@ToString
 public class EndpointHit {
     private String app;
 

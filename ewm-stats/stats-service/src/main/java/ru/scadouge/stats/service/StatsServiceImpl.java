@@ -26,4 +26,9 @@ public class StatsServiceImpl implements StatsService {
     public List<StatCountView> getStats(GetStatsArgs args) {
         return statsRepository.findStatsCountInTimeIntervalByUri(args.getStart(), args.getEnd(), args.getUris(), args.getUnique());
     }
+
+    @Override
+    public List<StatCountView> getViewsStats(List<String> uris, boolean unique) {
+        return statsRepository.findStatsCountByUri(uris, unique);
+    }
 }
