@@ -12,7 +12,7 @@ import ru.scadouge.ewm.event.dto.enums.RequestState;
 import ru.scadouge.ewm.event.model.Event;
 import ru.scadouge.ewm.event.model.Request;
 import ru.scadouge.ewm.event.service.RequestService;
-import ru.scadouge.ewm.location.Location;
+import ru.scadouge.ewm.event.model.Location;
 import ru.scadouge.ewm.user.model.User;
 import ru.scadouge.ewm.user.repository.UserRepository;
 
@@ -39,7 +39,7 @@ class RequestRepositoryTest {
         Timestamp timestamp = Timestamp.valueOf(now);
         User user = userRepository.save(new User(null, "User 1", UUID.randomUUID() + "@mail.com"));
         Category category = categoryRepository.save(new Category(null, "Category " + UUID.randomUUID()));
-        Location location = locationRepository.save(new Location(null, "location 1", 20.0D, 10.0D));
+        Location location = locationRepository.save(new Location(null, "location 1", null, false, 20.0D, 10.0D, 0.0D));
         Event event = eventRepository.save(new Event(null, "title", "desc", "anno",
                 user, category, timestamp, location, true, true, 4, 0L,
                 EventState.PENDING, null, timestamp));
