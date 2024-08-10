@@ -15,9 +15,9 @@ import ru.scadouge.ewm.event.model.Request;
 import ru.scadouge.ewm.event.service.EventService;
 import ru.scadouge.ewm.event.service.RequestService;
 
-import javax.validation.Valid;
-import javax.validation.constraints.Positive;
-import javax.validation.constraints.PositiveOrZero;
+import jakarta.validation.Valid;
+import jakarta.validation.constraints.Positive;
+import jakarta.validation.constraints.PositiveOrZero;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -89,12 +89,8 @@ public class EventPrivateController {
         List<ParticipationRequestDto> rejected = new ArrayList<>();
         for (Request request : requests) {
             switch (request.getStatus()) {
-                case CONFIRMED:
-                    confirmed.add(requestMapper.toParticipationRequestDto(request));
-                    break;
-                case REJECTED:
-                    rejected.add(requestMapper.toParticipationRequestDto(request));
-                    break;
+                case CONFIRMED -> confirmed.add(requestMapper.toParticipationRequestDto(request));
+                case REJECTED -> rejected.add(requestMapper.toParticipationRequestDto(request));
             }
         }
         return EventRequestStatusUpdateResult.builder().rejectedRequests(rejected).confirmedRequests(confirmed).build();

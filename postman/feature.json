@@ -14833,23 +14833,10 @@
                   "        user = await api.addUser(rnd.getUser());\r",
                   "        category = await api.addCategory(rnd.getCategory());\r",
                   "        eventArr = Array.from({length:11}, () => rnd.getEvent(category.id));\r",
-                  "        await pm.sendRequest({\r",
-                  "                url : \"http://localhost:8080/admin/locations/\",\r",
-                  "                method : \"POST\",\r",
-                  "                header: { \"Content-Type\": \"application/json\" },\r",
-                  "                body: \r",
-                  "                `{\r",
-                  "                    \"name\": \"City name\",\r",
-                  "                    \"permanent\": true,\r",
-                  "                    \"lat\": 10.0,\r",
-                  "                    \"lon\": 10.0,\r",
-                  "                    \"radius\": 50\r",
-                  "                }`\r",
-                  "            },\r",
-                  "                (error, response) => {pm.collectionVariables.set('source', response.json())}\r",
-                  "            );\r",
-                  "        const location = pm.collectionVariables.get('source');\r",
+                  "        const location = await api.addLocation(rnd.getLocation(\"Some Location\"));\r",
+                  "\r",
                   "        pm.collectionVariables.set('locationId', location.id);\r",
+                  "        pm.request.url = pm.request.url + location.id;\r",
                   "\r",
                   "    } catch(err) {\r",
                   "        console.error(\"Ошибка при подготовке тестовых данных.\", err);\r",
@@ -14868,7 +14855,7 @@
                   "            clearInterval(interval);\r",
                   "        }\r",
                   "    },  \r",
-                  "    100 \r",
+                  "    1000 \r",
                   ");"
                 ],
                 "type": "text/javascript"
@@ -14928,14 +14915,14 @@
               }
             },
             "url": {
-              "raw": "{{baseUrl}}/admin/locations/{{locationId}}",
+              "raw": "{{baseUrl}}/admin/locations/",
               "host": [
                 "{{baseUrl}}"
               ],
               "path": [
                 "admin",
                 "locations",
-                "{{locationId}}"
+                ""
               ]
             },
             "description": "Эндпоинт возвращает полную информацию обо всех событиях подходящих под переданные условия"
@@ -14971,7 +14958,7 @@
           "    }",
           "",
           "    async addLocation(location, verbose=null) {",
-          "        return this.post(\"/admin/locations/\", location, \"Ошибка при добавлении новой локации: \", verbose);",
+          "        return this.post(\"/admin/locations\", location, \"Ошибка при добавлении новой локации: \", verbose);",
           "    }",
           "",
           "    async addCompilation(compilation, verbose=null) {",
@@ -14991,7 +14978,7 @@
           "    }",
           "",
           "    async acceptParticipationRequest(eventId, userId, reqId, verbose=null) {",
-          "        return this.patch('/users/' + userId + '/events/' + eventId + '/requests/', {requestIds:[reqId], status: \"CONFIRMED\"}, \"Ошибка при принятии заявки на участие в событии\", verbose);",
+          "        return this.patch('/users/' + userId + '/events/' + eventId + '/requests', {requestIds:[reqId], status: \"CONFIRMED\"}, \"Ошибка при принятии заявки на участие в событии\", verbose);",
           "    }",
           "",
           "    async findCategory(catId, verbose=null) {",

@@ -2,7 +2,7 @@ package ru.scadouge.ewm.event.dto;
 
 import lombok.*;
 
-import javax.validation.constraints.Positive;
+import jakarta.validation.constraints.Positive;
 
 @NoArgsConstructor
 @AllArgsConstructor

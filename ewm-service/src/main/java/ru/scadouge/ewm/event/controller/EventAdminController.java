@@ -15,9 +15,9 @@ import ru.scadouge.ewm.event.service.EventService;
 import ru.scadouge.ewm.event.validation.ValidSearchDateInterval;
 import ru.scadouge.ewm.utils.TimeHelper;
 
-import javax.validation.Valid;
-import javax.validation.constraints.Positive;
-import javax.validation.constraints.PositiveOrZero;
+import jakarta.validation.Valid;
+import jakarta.validation.constraints.Positive;
+import jakarta.validation.constraints.PositiveOrZero;
 import java.time.LocalDateTime;
 import java.util.List;
 

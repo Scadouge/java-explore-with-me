@@ -4,6 +4,7 @@ import lombok.RequiredArgsConstructor;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.transaction.annotation.Transactional;
 import ru.scadouge.ewm.category.model.Category;
 import ru.scadouge.ewm.category.repository.CategoryRepository;
 import ru.scadouge.ewm.error.ConflictException;
@@ -25,6 +26,7 @@ import static org.junit.jupiter.api.Assertions.*;
 
 @SpringBootTest
 @RequiredArgsConstructor(onConstructor_ = @Autowired)
+@Transactional
 class RequestRepositoryTest {
     private final RequestService requestService;
     private final RequestRepository requestRepository;

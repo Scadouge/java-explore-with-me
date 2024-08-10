@@ -13,9 +13,9 @@ import ru.scadouge.ewm.event.mapper.LocationMapper;
 import ru.scadouge.ewm.event.model.Location;
 import ru.scadouge.ewm.event.service.LocationService;
 
-import javax.validation.Valid;
-import javax.validation.constraints.Positive;
-import javax.validation.constraints.PositiveOrZero;
+import jakarta.validation.Valid;
+import jakarta.validation.constraints.Positive;
+import jakarta.validation.constraints.PositiveOrZero;
 import java.util.List;
 
 @RestController

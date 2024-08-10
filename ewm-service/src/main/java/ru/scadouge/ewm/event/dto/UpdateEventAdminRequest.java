@@ -6,8 +6,8 @@ import ru.scadouge.ewm.event.dto.enums.EventAdminActionState;
 import ru.scadouge.ewm.event.validation.ValidFutureDate;
 import ru.scadouge.ewm.utils.TimeHelper;
 
-import javax.validation.constraints.Positive;
-import javax.validation.constraints.Size;
+import jakarta.validation.constraints.Positive;
+import jakarta.validation.constraints.Size;
 import java.time.LocalDateTime;
 
 @NoArgsConstructor

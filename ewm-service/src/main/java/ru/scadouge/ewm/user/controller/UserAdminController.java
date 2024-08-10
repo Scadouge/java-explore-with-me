@@ -11,9 +11,9 @@ import ru.scadouge.ewm.user.dto.UserDto;
 import ru.scadouge.ewm.user.mapper.UserMapper;
 import ru.scadouge.ewm.user.service.UserService;
 
-import javax.validation.Valid;
-import javax.validation.constraints.Positive;
-import javax.validation.constraints.PositiveOrZero;
+import jakarta.validation.Valid;
+import jakarta.validation.constraints.Positive;
+import jakarta.validation.constraints.PositiveOrZero;
 import java.util.List;
 
 @RestController

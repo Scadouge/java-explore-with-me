@@ -2,7 +2,7 @@ package ru.scadouge.ewm.category.model;
 
 import lombok.*;
 
-import javax.persistence.*;
+import jakarta.persistence.*;
 
 import static ru.scadouge.ewm.utils.EwmSqlHelper.*;
 

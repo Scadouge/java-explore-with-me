@@ -6,7 +6,7 @@ import ru.scadouge.ewm.category.model.Category;
 import ru.scadouge.ewm.event.dto.enums.EventState;
 import ru.scadouge.ewm.user.model.User;
 
-import javax.persistence.*;
+import jakarta.persistence.*;
 import java.sql.Timestamp;
 
 import static ru.scadouge.ewm.utils.EwmSqlHelper.*;

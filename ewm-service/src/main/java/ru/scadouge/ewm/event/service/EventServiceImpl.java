@@ -27,7 +27,7 @@ import ru.scadouge.ewm.utils.Pagination;
 import ru.scadouge.stats.client.StatsClient;
 import ru.scadouge.stats.dto.ViewStats;
 
-import javax.persistence.criteria.JoinType;
+import jakarta.persistence.criteria.JoinType;
 import java.sql.Timestamp;
 import java.util.Comparator;
 import java.util.List;
