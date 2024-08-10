@@ -1,11 +1,10 @@
 package ru.scadouge.ewm.event.dto;
 
-import lombok.*;
-
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
-import jakarta.validation.constraints.Positive;
 import jakarta.validation.constraints.Size;
+import lombok.*;
+
 import java.sql.Timestamp;
 
 @NoArgsConstructor
