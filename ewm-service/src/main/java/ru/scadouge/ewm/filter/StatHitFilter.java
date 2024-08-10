@@ -1,5 +1,6 @@
 package ru.scadouge.ewm.filter;
 
+import jakarta.servlet.http.HttpServletRequestWrapper;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
@@ -26,7 +27,18 @@ public class StatHitFilter extends OncePerRequestFilter {
     @Override
     protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain) throws ServletException, IOException {
 
-        filterChain.doFilter(request, response);
+        HttpServletRequestWrapper wrapper = new HttpServletRequestWrapper(request) {
+            @Override
+            public String getRequestURI() {
+                String uri = super.getRequestURI();
+                if (uri.endsWith("/")) {
+                    return uri.substring(0, uri.length() - 1);
+                }
+                return uri;
+            }
+        };
+
+        filterChain.doFilter(wrapper, response);
 
         if (response.getStatus() / 200 == 1) {
             String ip = request.getRemoteAddr();
