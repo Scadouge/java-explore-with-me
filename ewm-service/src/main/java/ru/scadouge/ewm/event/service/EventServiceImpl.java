@@ -278,7 +278,7 @@ public class EventServiceImpl implements EventService {
     }
 
     private List<EventWithViewsArgs> getEventsWithViews(List<Event> events) {
-        if (events.size() == 0) {
+        if (events.isEmpty()) {
             return List.of();
         }
         Map<Long, Event> eventMap = events.stream().collect(Collectors.toMap(Event::getId, e -> e));

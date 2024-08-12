@@ -45,7 +45,7 @@ public class Event {
     @Column(name = EVENT_DATE, nullable = false)
     private Timestamp eventDate;
 
-    @ManyToOne(fetch = FetchType.EAGER)
+    @ManyToOne
     @JoinColumn(name = EVENT_LOCATION, nullable = false)
     private Location location;
 
