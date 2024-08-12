@@ -3,6 +3,7 @@ package ru.scadouge.ewm.event.controller;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 import ru.scadouge.ewm.event.args.NewLocationArgs;
 import ru.scadouge.ewm.event.args.UpdateLocationArgs;
@@ -22,6 +23,7 @@ import java.util.List;
 @RequestMapping("/admin/locations")
 @Slf4j
 @RequiredArgsConstructor
+@Validated
 public class LocationAdminController {
     private final LocationService locationService;
     private final LocationMapper locationMapper;
