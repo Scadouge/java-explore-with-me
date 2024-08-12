@@ -1,5 +1,5 @@
--- DROP TABLE IF EXISTS ewm_compilation_event, ewm_compilations, ewm_requests, ewm_events,
---     ewm_categories, ewm_locations, ewm_users;
+DROP TABLE IF EXISTS ewm_compilation_event, ewm_compilations, ewm_requests, ewm_events,
+    ewm_categories, ewm_locations, ewm_users;
 
 CREATE TABLE IF NOT EXISTS ewm_users
 (
