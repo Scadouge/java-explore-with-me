@@ -44,8 +44,11 @@ public class EwmSqlHelper {
 
     public final String LOCATION_ID = "id";
     public final String LOCATION_NAME = "name";
+    public final String LOCATION_EXPIRATION_DATE = "expiration_date";
+    public final String LOCATION_PERMANENT = "permanent";
     public final String LOCATION_LAT = "lat";
     public final String LOCATION_LON = "lon";
+    public final String LOCATION_RADIUS = "radius";
 
     public final String COMPILATION_ID = "id";
     public final String COMPILATION_TITLE = "title";

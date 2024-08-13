@@ -9,8 +9,8 @@ import ru.scadouge.ewm.category.mapper.CategoryMapper;
 import ru.scadouge.ewm.category.model.Category;
 import ru.scadouge.ewm.category.service.CategoryService;
 
-import javax.validation.constraints.Positive;
-import javax.validation.constraints.PositiveOrZero;
+import jakarta.validation.constraints.Positive;
+import jakarta.validation.constraints.PositiveOrZero;
 import java.util.List;
 
 @RestController

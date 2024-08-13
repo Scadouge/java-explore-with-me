@@ -6,17 +6,19 @@ import ru.scadouge.ewm.event.args.*;
 import ru.scadouge.ewm.event.dto.*;
 import ru.scadouge.ewm.event.dto.enums.EventSort;
 import ru.scadouge.ewm.event.model.Event;
-import ru.scadouge.ewm.location.Location;
+import ru.scadouge.ewm.event.model.Location;
 import ru.scadouge.ewm.user.model.User;
-import ru.scadouge.ewm.utils.TimeHelper;
 
-import java.sql.Timestamp;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
-@Mapper(componentModel = MappingConstants.ComponentModel.SPRING)
+@Mapper(componentModel = MappingConstants.ComponentModel.SPRING,
+        uses = {
+                DateConversionMapper.class,
+                LocationMapper.class
+        })
 public interface EventMapper {
     @Mapping(target = "id", ignore = true)
     @Mapping(target = "publishedOn", ignore = true)
@@ -33,6 +35,7 @@ public interface EventMapper {
     @Mapping(target = "createdOn", ignore = true)
     @Mapping(target = "confirmedRequests", ignore = true)
     @Mapping(target = "category", ignore = true)
+    @Mapping(target = "location", ignore = true)
     @BeanMapping(nullValuePropertyMappingStrategy = NullValuePropertyMappingStrategy.IGNORE)
     void updateEvent(@MappingTarget Event event, EventUserUpdateArgs updateArgs);
 
@@ -43,6 +46,7 @@ public interface EventMapper {
     @Mapping(target = "createdOn", ignore = true)
     @Mapping(target = "confirmedRequests", ignore = true)
     @Mapping(target = "category", ignore = true)
+    @Mapping(target = "location", ignore = true)
     @BeanMapping(nullValuePropertyMappingStrategy = NullValuePropertyMappingStrategy.IGNORE)
     void updateEvent(@MappingTarget Event event, EventAdminUpdateArgs updateArgs);
 
@@ -75,7 +79,9 @@ public interface EventMapper {
     @BeanMapping(nullValueMappingStrategy = NullValueMappingStrategy.RETURN_DEFAULT,
             nullValueCheckStrategy = NullValueCheckStrategy.ALWAYS)
     AdminSearchEventsArgs toAdminSearchEventsArgs(LocalDateTime rangeStart, LocalDateTime rangeEnd, List<Long> users,
-                                                  List<String> states, List<Long> categories, int from, int size);
+                                                  List<String> states, List<Long> categories,
+                                                  Double lat, Double lon, Double radius,
+                                                  int from, int size);
 
     @BeanMapping(nullValueMappingStrategy = NullValueMappingStrategy.RETURN_DEFAULT,
             nullValueCheckStrategy = NullValueCheckStrategy.ALWAYS)
@@ -93,21 +99,5 @@ public interface EventMapper {
             list.add(EventWithViewsArgs.builder().event(event).views(eventViews).build());
         }
         return list;
-    }
-
-    // ============= DATETIME TYPE CONVERSION ============= //
-
-    default Timestamp toTimestamp(LocalDateTime localDateTime) {
-        if (localDateTime == null) {
-            return null;
-        }
-        return Timestamp.valueOf(localDateTime);
-    }
-
-    default String fromTimestamp(Timestamp timestamp) {
-        if (timestamp == null) {
-            return null;
-        }
-        return timestamp.toLocalDateTime().format(TimeHelper.DATE_TIME_FORMATTER);
     }
 }

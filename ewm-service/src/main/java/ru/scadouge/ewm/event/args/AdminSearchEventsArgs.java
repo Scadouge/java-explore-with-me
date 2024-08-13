@@ -21,6 +21,12 @@ public class AdminSearchEventsArgs {
 
     private final Timestamp rangeEnd;
 
+    private final Double lat;
+
+    private final Double lon;
+
+    private final Double radius;
+
     private final int from;
 
     private final int size;

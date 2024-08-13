@@ -3,9 +3,9 @@ package ru.scadouge.stats.repository;
 import org.springframework.stereotype.Component;
 import ru.scadouge.stats.view.StatCountView;
 
-import javax.persistence.EntityManager;
-import javax.persistence.PersistenceContext;
-import javax.persistence.TypedQuery;
+import jakarta.persistence.EntityManager;
+import jakarta.persistence.PersistenceContext;
+import jakarta.persistence.TypedQuery;
 import java.time.LocalDateTime;
 import java.util.List;
 

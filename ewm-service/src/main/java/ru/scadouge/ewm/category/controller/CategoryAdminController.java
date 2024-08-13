@@ -10,7 +10,7 @@ import ru.scadouge.ewm.category.mapper.CategoryMapper;
 import ru.scadouge.ewm.category.model.Category;
 import ru.scadouge.ewm.category.service.CategoryService;
 
-import javax.validation.Valid;
+import jakarta.validation.Valid;
 
 @RestController
 @RequestMapping("/admin/categories")

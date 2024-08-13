@@ -4,10 +4,9 @@ import lombok.*;
 import org.hibernate.annotations.CreationTimestamp;
 import ru.scadouge.ewm.category.model.Category;
 import ru.scadouge.ewm.event.dto.enums.EventState;
-import ru.scadouge.ewm.location.Location;
 import ru.scadouge.ewm.user.model.User;
 
-import javax.persistence.*;
+import jakarta.persistence.*;
 import java.sql.Timestamp;
 
 import static ru.scadouge.ewm.utils.EwmSqlHelper.*;
@@ -46,7 +45,7 @@ public class Event {
     @Column(name = EVENT_DATE, nullable = false)
     private Timestamp eventDate;
 
-    @ManyToOne(fetch = FetchType.LAZY)
+    @ManyToOne
     @JoinColumn(name = EVENT_LOCATION, nullable = false)
     private Location location;
 

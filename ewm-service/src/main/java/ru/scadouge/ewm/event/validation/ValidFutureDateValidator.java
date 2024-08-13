@@ -1,7 +1,7 @@
 package ru.scadouge.ewm.event.validation;
 
-import javax.validation.ConstraintValidator;
-import javax.validation.ConstraintValidatorContext;
+import jakarta.validation.ConstraintValidator;
+import jakarta.validation.ConstraintValidatorContext;
 import java.time.LocalDateTime;
 
 public class ValidFutureDateValidator implements ConstraintValidator<ValidFutureDate, Object> {

@@ -13,11 +13,13 @@ import ru.scadouge.ewm.error.NotFoundException;
 import ru.scadouge.ewm.event.args.*;
 import ru.scadouge.ewm.event.dto.enums.EventState;
 import ru.scadouge.ewm.event.mapper.EventMapper;
+import ru.scadouge.ewm.event.mapper.LocationMapper;
 import ru.scadouge.ewm.event.model.Event;
 import ru.scadouge.ewm.event.model.Event_;
+import ru.scadouge.ewm.event.model.Location;
+import ru.scadouge.ewm.event.model.Location_;
 import ru.scadouge.ewm.event.repository.EventRepository;
 import ru.scadouge.ewm.event.repository.LocationRepository;
-import ru.scadouge.ewm.location.Location;
 import ru.scadouge.ewm.user.model.User;
 import ru.scadouge.ewm.user.model.User_;
 import ru.scadouge.ewm.user.repository.UserRepository;
@@ -25,9 +27,12 @@ import ru.scadouge.ewm.utils.Pagination;
 import ru.scadouge.stats.client.StatsClient;
 import ru.scadouge.stats.dto.ViewStats;
 
+import jakarta.persistence.criteria.JoinType;
+import java.sql.Timestamp;
 import java.util.Comparator;
 import java.util.List;
 import java.util.Map;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 @Service
@@ -40,6 +45,7 @@ public class EventServiceImpl implements EventService {
     private final LocationRepository locationRepository;
     private final StatsClient statsClient;
     private final EventMapper eventMapper;
+    private final LocationMapper locationMapper;
 
     @Override
     @Transactional
@@ -48,7 +54,8 @@ public class EventServiceImpl implements EventService {
                 .orElseThrow(() -> new NotFoundException(User.class, userId));
         Category category = categoryRepository.findById(args.getCategory())
                 .orElseThrow(() -> new NotFoundException(Category.class, args.getCategory()));
-        Location location = locationRepository.save(args.getLocation());
+        Location location = createEventLocation(args.getLocation(), args.getTitle(), args.getEventDate());
+
         Event event = eventMapper.toModel(args, user, category, location);
         return eventRepository.save(event);
     }
@@ -96,7 +103,36 @@ public class EventServiceImpl implements EventService {
             }
         }
         eventMapper.updateEvent(event, eventUserUpdateArgs);
+        if (eventUserUpdateArgs.getLocation() != null) {
+            Location location = updateEventLocation(event, eventUserUpdateArgs.getLocation());
+            event.setLocation(location);
+        }
         return getEventsWithViews(List.of(eventRepository.save(event))).stream().findFirst().orElseThrow();
+    }
+
+    private Location updateEventLocation(Event event, NewLocationArgs newLocationArgs) {
+        if (event.getLocation() != null) {
+            Location oldLocation = event.getLocation();
+            if (!oldLocation.getPermanent()) {
+                locationRepository.deleteById(event.getLocation().getId());
+            }
+        }
+        Location location = createEventLocation(newLocationArgs, event.getTitle(), event.getEventDate());
+        event.setLocation(location);
+        return location;
+    }
+
+    private Location createEventLocation(NewLocationArgs newLocationArgs, String name, Timestamp expirationDate) {
+        if (newLocationArgs.getId() != null) {
+            Optional<Location> permanentLocationOpt = locationRepository.findById(newLocationArgs.getId());
+            if (permanentLocationOpt.isPresent() && permanentLocationOpt.get().getPermanent()) {
+                return permanentLocationOpt.get();
+            }
+        }
+        Location location = locationMapper.toLocation(newLocationArgs);
+        location.setExpirationDate(expirationDate);
+        location.setName(name);
+        return locationRepository.save(location);
     }
 
     @Override
@@ -122,6 +158,20 @@ public class EventServiceImpl implements EventService {
         if (args.getRangeEnd() != null) {
             spec = spec.and((root, query, criteriaBuilder) ->
                     criteriaBuilder.lessThan(root.get(Event_.eventDate), args.getRangeEnd()));
+        }
+        if (args.getLat() != null && args.getLon() != null && args.getRadius() != null) {
+            spec = spec.and((root, query, criteriaBuilder) -> {
+                        root.fetch(Event_.location, JoinType.LEFT);
+                        return criteriaBuilder.lessThanOrEqualTo(
+                                criteriaBuilder.function("distance", Double.class,
+                                        criteriaBuilder.literal(args.getLat()),
+                                        criteriaBuilder.literal(args.getLon()),
+                                        root.get(Event_.location).get(Location_.LAT),
+                                        root.get(Event_.location).get(Location_.LON)),
+                                args.getRadius()
+                        );
+                    }
+            );
         }
 
         Pageable page = Pagination.getPage(args.getFrom(), args.getSize());
@@ -155,10 +205,12 @@ public class EventServiceImpl implements EventService {
                     .orElseThrow(() -> new NotFoundException(Category.class, eventAdminUpdateArgs.getCategory()));
             event.setCategory(category);
         }
-        if (eventAdminUpdateArgs.getLocation() != null) {
-            event.setLocation(locationRepository.save(eventAdminUpdateArgs.getLocation()));
-        }
         eventMapper.updateEvent(event, eventAdminUpdateArgs);
+        if (eventAdminUpdateArgs.getLocation() != null) {
+            Location location = updateEventLocation(event, eventAdminUpdateArgs.getLocation());
+            event.setLocation(location);
+        }
+
         return getEventsWithViews(List.of(eventRepository.save(event))).stream().findFirst().orElseThrow();
     }
 
@@ -226,6 +278,9 @@ public class EventServiceImpl implements EventService {
     }
 
     private List<EventWithViewsArgs> getEventsWithViews(List<Event> events) {
+        if (events.isEmpty()) {
+            return List.of();
+        }
         Map<Long, Event> eventMap = events.stream().collect(Collectors.toMap(Event::getId, e -> e));
         Map<String, Long> eventIdUris = eventMap.keySet().stream()
                 .collect(Collectors.toMap(id -> String.format("/events/%s", id), id -> id));

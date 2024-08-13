@@ -2,7 +2,7 @@ package ru.scadouge.stats.model;
 
 import lombok.*;
 
-import javax.persistence.*;
+import jakarta.persistence.*;
 import java.time.LocalDateTime;
 
 import static ru.scadouge.stats.repository.StatsSqlHelper.TABLE_STAT_HITS;

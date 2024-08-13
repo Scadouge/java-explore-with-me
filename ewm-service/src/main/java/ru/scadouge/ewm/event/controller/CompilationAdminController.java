@@ -13,7 +13,7 @@ import ru.scadouge.ewm.event.mapper.CompilationMapper;
 import ru.scadouge.ewm.event.model.Compilation;
 import ru.scadouge.ewm.event.service.CompilationService;
 
-import javax.validation.Valid;
+import jakarta.validation.Valid;
 
 @RestController
 @RequestMapping("/admin/compilations")

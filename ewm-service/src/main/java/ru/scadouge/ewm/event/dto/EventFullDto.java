@@ -29,7 +29,7 @@ public class EventFullDto {
 
     private UserShortDto initiator;
 
-    private LocationDto location;
+    private LocationFullDto location;
 
     private Long confirmedRequests;
 

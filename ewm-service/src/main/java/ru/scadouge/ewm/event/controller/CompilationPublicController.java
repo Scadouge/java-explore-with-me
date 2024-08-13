@@ -10,8 +10,8 @@ import ru.scadouge.ewm.event.mapper.CompilationMapper;
 import ru.scadouge.ewm.event.model.Compilation;
 import ru.scadouge.ewm.event.service.CompilationService;
 
-import javax.validation.constraints.Positive;
-import javax.validation.constraints.PositiveOrZero;
+import jakarta.validation.constraints.Positive;
+import jakarta.validation.constraints.PositiveOrZero;
 import java.util.List;
 
 @RestController
